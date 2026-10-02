@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Giuseppe Caldarola</title>
+    
+    <!-- Font e Script -->
+    <script src="https://code.jquery.com/jquery-1.7.2.js"></script> 
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet"> 
+    
+    <style>
+    /* FONT PERSONALIZZATI */
+    @font-face { font-family: 'Radwave'; src: url('https://files.jcink.net/uploads2/leaptesting/RadwaveFont_Demo.otf'); } 
+    @font-face { font-family: 'Highrise'; src: url('https://files.jcink.net/uploads2/leaptesting/HighriseFont_Demo_Regular.otf'); } 
+
+    /* VARIABILI E RESET */
+    :root {
+        --title1: 'Radwave', sans-serif; 
+        --title2: 'Highrise', sans-serif; 
+        --body: 'Inter', sans-serif; 
+        --accent1: #FF3D5F; 
+        --accent2: #F2BB13; 
+        --dark: #0a0a0a;
+        --light: #f9f9f9;
+        --transition: 0.3s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+    
+    body { 
+        margin: 0; 
+        overflow-x: hidden; 
+        background-color: #fff; 
+        color: #111; 
+        font-family: var(--body);
+    }
+    a, label { cursor: none; text-decoration: none; color: inherit; } 
+    input[type="radio"], input[type="checkbox"] { display: none; }
+
+    /* CURSORE PERSONALIZZATO */ 
+    .cursor {
+        position: fixed; width: 25px; height: 25px; background: #fff;
+        border-radius: 50%; pointer-events: none; z-index: 9999999999;
+        transform: translate(-50%, -50%); mix-blend-mode: difference;
+        transition: width 0.2s, height 0.2s; display: none;
+    } 
+    .cursor.visible { display: block; } 
+    .cursor.big { width: 50px; height: 50px; } 
+
+    /* PULSANTE INFO (FISSO IN ALTO A SINISTRA) */
+    .btn-info-toggle {
+        position: fixed; top: 25px; left: 25px; z-index: 100002;
+        color: #fff;
+    }
+    .btn-info-toggle::before { content: 'open'; display: block; font: 14px var(--title1); margin-bottom: 2px; }
+    .btn-info-toggle div {
+        font: 25px var(--title1); background: #000; color: #fff;
+        padding: 5px 20px; transition: 0.2s; border-left: 4px solid var(--accent1);
+        box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+    }
+    .btn-info-toggle:hover div { background: var(--accent1); padding-left: 25px; }
+    #btu-tog:checked ~ .btn-info-toggle::before { content: 'close'; color: #000; }
+    #btu-tog:checked ~ .btn-info-toggle div { background: var(--accent2); color: #000; border-color: #000; }
+
+    /* OVERLAY E PANNELLO LATERALE NASCOSTO */
+    .sidebar-overlay {
+        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+        background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+        z-index: 100000; opacity: 0; pointer-events: none; transition: var(--transition);
+    }
+    .sidebar-panel {
+        position: fixed; top: 0; left: -450px; width: 400px; max-width: 85vw; height: 100vh;
+        background: linear-gradient(to top, var(--accent1), var(--accent2));
+        z-index: 100001; transition: var(--transition); display: flex;
+        flex-direction: column; justify-content: center; padding: 40px; box-sizing: border-box;
+        box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+    }
+    
+    /* MASCHERA GRUNGE NEL PANNELLO */
+    .sidebar-texture {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+        mask-image: url('https://i.ibb.co/PZD8DkLF/Grunge-Text.png');
+        -webkit-mask-image: url('https://i.ibb.co/PZD8DkLF/Grunge-Text.png');
+        mask-size: cover; background: #000; opacity: 0.15;
+    }
+    .sidebar-lyric {
+        position: absolute; font: 18px var(--title1); text-transform: uppercase;
+        transform: rotate(-90deg); transform-origin: top left;
+        bottom: 20px; left: 30px; color: rgba(255,255,255,0.7); letter-spacing: 2px;
+    }
+
+    /* CONTENUTO PANNELLO (LINK E CV) */
+    .sidebar-content { display: flex; flex-direction: column; gap: 15px; }
+    .sidebar-title { font: 22px var(--title1); color: #000; margin-top: 25px; border-bottom: 2px solid rgba(0,0,0,0.2); padding-bottom: 5px; }
+    .sidebar-content a {
+        font: 35px var(--title2); color: #fff; text-transform: uppercase; letter-spacing: 1px;
+        display: flex; align-items: center; gap: 12px; transition: 0.2s;
+    }
+    .sidebar-content a:hover { color: #000; transform: translateX(10px); }
+    .sidebar-icon { height: 28px; filter: invert(1); }
+    .sidebar-content a:hover .sidebar-icon { filter: invert(0); }
+
+    /* LOGICA ATTIVAZIONE PANNELLO */
+    #btu-tog:checked ~ .sidebar-overlay { opacity: 1; pointer-events: auto; }
+    #btu-tog:checked ~ .sidebar-panel { left: 0; }
+
+    /* HEADER E NAVIGAZIONE TOP */
+    .top-nav {
+        position: sticky; top: 0; z-index: 9999;
+        display: flex; justify-content: flex-end; gap: 30px;
+        padding: 20px 40px; background: rgba(255,255,255,0.95);
+        border-bottom: 3px solid #000; box-shadow: 0 4px 0 var(--accent1);
+    }
+    .top-nav label {
+        font: 18px var(--title1); text-transform: uppercase;
+        padding: 5px 15px; position: relative; transition: 0.2s; z-index: 1;
+    }
+    .top-nav label::before {
+        content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 0%;
+        background: var(--accent1); z-index: -1; transition: 0.2s;
+    }
+    .top-nav label:hover::before { width: 100%; }
+    .top-nav label:hover { color: #fff; }
+
+    /* BANNER PRINCIPALE GRUNGE */
+    .main-banner {
+        background: #000; color: #fff; padding: 100px 40px;
+        position: relative; overflow: hidden;
+    }
+    .main-banner-title {
+        font: 16px var(--title1); text-transform: uppercase; position: relative; z-index: 2;
+        max-width: 800px; margin: 0 auto;
+    }
+    .main-banner-title b {
+        display: block; font: 70px/55px var(--title1); margin-top: 10px;
+        color: #fff; mix-blend-mode: difference;
+    }
+    .main-banner-title::after {
+        content: ''; display: block; height: 8px; width: 100px;
+        background: linear-gradient(90deg, var(--accent1), var(--accent2)); margin-top: 15px;
+    }
+    .banner-texture {
+        position: absolute; top: 0; right: 0; width: 100%; height: 100%; z-index: 1;
+        mask-image: url('https://i.ibb.co/PZD8DkLF/Grunge-Text.png');
+        -webkit-mask-image: url('https://i.ibb.co/PZD8DkLF/Grunge-Text.png');
+        mask-size: cover; background: #fff; opacity: 0.8; transform: scaleX(-1);
+    }
+
+    /* GESTIONE PAGINE */
+    .page-wrapper { display: none; padding: 50px 40px; max-width: 1100px; margin: 0 auto; animation: fadeIn 0.4s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    #tab1:checked ~ .content-container #page1,
+    #tab2:checked ~ .content-container #page2,
+    #tab3:checked ~ .content-container #page3 { display: block; }
+    
+    #tab1:checked ~ .top-nav label[for="tab1"],
+    #tab2:checked ~ .top-nav label[for="tab2"],
+    #tab3:checked ~ .top-nav label[for="tab3"] { background: var(--accent1); color: #fff; }
+
+    /* STILI CONTENUTO: NON PIÙ RETTANGOLI SEMPLICI */
+    .section-title {
+        font: 50px var(--title1); text-transform: uppercase; margin-bottom: 40px;
+        position: relative; display: inline-block;
+    }
+    .section-title::after {
+        content: ''; position: absolute; bottom: 8px; left: -10px;
+        width: calc(100% + 20px); height: 15px; background: var(--accent2); z-index: -1;
+    }
+
+    .tech-box {
+        position: relative; background: var(--light); padding: 35px;
+        margin-bottom: 40px; border: 2px solid #000; 
+        box-shadow: -8px 8px 0px rgba(0,0,0,0.1); transition: 0.3s;
+    }
+    .tech-box:hover { transform: translateY(-5px); box-shadow: -12px 12px 0px var(--accent1); }
+    
+    /* Dettagli angolari tech per eliminare l'effetto "rettangolo banale" */
+    .tech-box::before {
+        content: ''; position: absolute; top: -2px; left: -2px;
+        width: 25px; height: 25px; border-top: 5px solid var(--accent1); border-left: 5px solid var(--accent1);
+    }
+    .tech-box::after {
+        content: ''; position: absolute; bottom: -2px; right: -2px;
+        width: 25px; height: 25px; border-bottom: 5px solid var(--accent2); border-right: 5px solid var(--accent2);
+    }
+
+    .tech-box h3 {
+        font: 32px var(--title2); text-transform: uppercase; margin-top: 0;
+        color: var(--dark); display: flex; align-items: center; gap: 15px; letter-spacing: 1px;
+    }
+    .tech-box p { font-size: 15px; line-height: 1.8; margin-bottom: 15px; }
+    .tech-box .highlight { background: #000; color: #fff; padding: 2px 6px; font-family: var(--title1); text-transform: uppercase; }
+
+    /* BADGE COMPETENZE PROGRAMMAZIONE */
+    .tech-grid { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 25px; }
+    .tech-badge {
+        display: inline-flex; align-items: center; gap: 10px;
+        background: #111; color: #fff; padding: 8px 18px;
+        font: 16px var(--title1); text-transform: uppercase;
+        border-left: 4px solid var(--accent1); box-shadow: 3px 3px 0 #ddd;
+        transition: 0.2s;
+    }
+    .tech-badge img { width: 22px; height: 22px; }
+    .tech-badge:hover { background: var(--accent2); color: #000; border-left-color: #000; transform: translateY(-3px); }
+
+    /* COMPONENTI VISIVI AGGIUNTIVI */
+    .logo-inline { height: 40px; object-fit: contain; }
+    .project-gallery { display: flex; gap: 15px; flex-wrap: wrap; margin: 20px 0; }
+    .project-img {
+        flex: 1; min-width: 250px; max-height: 250px; object-fit: cover;
+        border: 2px solid #000; filter: grayscale(100%); transition: 0.3s;
+    }
+    .tech-box:hover .project-img { filter: grayscale(0%); box-shadow: 6px 6px 0 var(--accent2); }
+    .map-mock {
+        width: 100%; height: 250px; border: 2px solid #000; margin: 20px 0;
+        filter: grayscale(100%); transition: 0.3s;
+    }
+    .tech-box:hover .map-mock { filter: grayscale(0%); box-shadow: 6px 6px 0 var(--accent1); }
+    blockquote {
+        border-left: 6px solid var(--accent2); background: #fff;
+        margin: 20px 0; padding: 15px 20px; font-weight: bold; border-right: 1px solid #eee;
+    }
+    .project-link {
+        color: var(--accent1); font: 18px var(--title1); text-decoration: underline; text-transform: uppercase;
+    }
+    .project-link:hover { background: var(--accent2); color: #000; text-decoration: none; padding: 0 5px; }
+
+    /* RESPONSIVE MOBILE DEDICATO */
+    @media (max-width: 768px) {
+        .top-nav {
+            justify-content: flex-start; padding: 15px 20px; padding-left: 100px; /* Spazio per il tasto INFO */
+            overflow-x: auto; white-space: nowrap;
+        }
+        .main-banner { padding: 60px 20px; }
+        .main-banner-title b { font-size: 45px; line-height: 1.1; }
+        .page-wrapper { padding: 30px 20px; }
+        .section-title { font-size: 38px; }
+        .tech-box { padding: 25px; }
+    }
+    </style>
+</head>
+<body>
+
+    <div class="cursor" id="cursor"></div> 
+    
+    <!-- INPUT DI CONTROLLO -->
+    <input type="checkbox" id="btu-tog"> 
+    <input type="radio" name="tabs" id="tab1" checked>
+    <input type="radio" name="tabs" id="tab2">
+    <input type="radio" name="tabs" id="tab3">
+
+    <!-- TASTO INFO FLUTTUANTE -->
+    <label for="btu-tog" class="btn-info-toggle"><div>INFO</div></label> 
+
+    <!-- PANNELLO LATERALE A SCOMPARSA (OVERLAY) -->
+    <label for="btu-tog" class="sidebar-overlay"></label>
+    <div class="sidebar-panel">
+        <div class="sidebar-texture"></div>
+        <div class="sidebar-lyric">DEVELOPER & ANALYST // BEYOND THE CODE</div>
+        
+        <div class="sidebar-content">
+            <div class="sidebar-title">CONTATTI & HUB</div>
+            <a href="mailto:seneo.community@outlook.com">✉️ Invia Email</a>
+            <a href="https://linktr.ee/giuscald" target="_blank">
+                <img src="linktreelogo.png" class="sidebar-icon" alt="Linktree"> Linktree
+            </a>
+            
+            <div class="sidebar-title">DOCUMENTI</div>
+            <!-- TASTO DOWNLOAD FUNZIONANTE: Assicurati che il PDF esista nella cartella -->
+            <a href="CV_Giuseppe_Caldarola.pdf" download="CV_Giuseppe_Caldarola.pdf">📄 Scarica CV PDF</a>
+        </div>
+    </div>
+
+    <!-- MENU DI NAVIGAZIONE SUPERIORE -->
+    <div class="top-nav">
+        <label for="tab1">CHI SONO</label> 
+        <label for="tab2">CERTIFICAZIONI</label> 
+        <label for="tab3">ESPERIENZE & LAVORI</label> 
+    </div> 
+
+    <!-- BANNER INTESTAZIONE -->
+    <div class="main-banner">
+        <div class="banner-texture"></div>
+        <div class="main-banner-title">
+            Programmatore Informatico & Cybersecurity
+            <b>Giuseppe Caldarola</b>
+        </div>
+    </div>
+
+    <!-- CONTENITORE DELLE PAGINE -->
+    <div class="content-container">
+
+        <!-- PAGINA 1: CHI SONO -->
+        <div class="page-wrapper" id="page1">
+            <h2 class="section-title">Profilo Personale e Competenze</h2>
+            
+            <div class="tech-box">
+                <p>Sono un programmatore e analista informatico orientato allo sviluppo software e alla sicurezza delle architetture di rete. Il mio percorso formativo e tecnico esprime una costante ricerca di soluzioni logiche strutturate ed efficienti.</p>
+                <p>Linguaggi di programmazione consolidati e tecnologie core apprese nel corso degli studi applicati:</p>
+                
+                <div class="tech-grid">
+                    <div class="tech-badge"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JS"> JavaScript</div>
+                    <div class="tech-badge"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++"> C++</div>
+                    <div class="tech-badge"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" alt="C"> C</div>
+                    <div class="tech-badge"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML"> HTML5</div>
+                    <div class="tech-badge"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS"> CSS3</div>
+                    <div class="tech-badge"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="JAVA"> Java</div>
+                </div>
+            </div>
+
+            <div class="tech-box">
+                <h3><img src="voltadegemmis.png" class="logo-inline" alt="Volta De Gemmis" onerror="this.style.display='none'"> Formazione - I.I.S.S. Volta - De Gemmis</h3>
+                <p>Ho completato con successo un percorso di scuola superiore quinquennale specializzato nel settore Informatico presso l'I.I.S.S. Volta - De Gemmis di Bitonto. Nel corso di questi cinque anni ho acquisito e approfondito metodologie avanzate di programmazione, gestione dei sistemi informativi e logiche di sviluppo software mirate al problem solving.</p>
+                <p><a href="https://iissvoltadegemmis.edu.it/" target="_blank" class="project-link">Consulta il sito istituzionale I.I.S.S. Volta - De Gemmis</a></p>
+            </div>
+
+            <div class="tech-box">
+                <h3><img src="olicyber.png" class="logo-inline" alt="Olicyber" onerror="this.style.display='none'"> Cybersecurity Excellence - OliCyber</h3>
+                <p>Partecipazione competitiva alle Olimpiadi Italiane di Cybersicurezza, superando la rigorosa selezione scolastica iniziale e accedendo alla successiva fase Territoriale in presenza. Il programma ha previsto lo studio avanzato e l'applicazione pratica di protocolli crittografici, tecniche di attacco/difesa nei sistemi informatici e analisi delle vulnerabilità infrastrutturali in linea con le linee guida della Strategia Nazionale di Cybersicurezza.</p>
+            </div>
+
+            <div class="tech-box">
+                <h3><img src="roblox-studio-scaled-removebg-preview.png" class="logo-inline" alt="Roblox Studio" onerror="this.style.display='none'"> Architettura e Sviluppo: Up & Beyond</h3>
+                <p>Ho co-progettato e sviluppato l'architettura logica del titolo interattivo <span class="highlight">Up & Beyond</span>, interamente realizzato all'interno dell'ambiente di sviluppo professionale <b>Roblox Studio</b> per la piattaforma Roblox. Lo sviluppo ha richiesto la stesura di complessi algoritmi di programmazione ad oggetti tramite linguaggio Luau, l'ottimizzazione del trasferimento dati client-server per ridurre la latenza di gioco e l'implementazione di interfacce grafiche responsive (UI). Il progetto ha incluso sessioni metodiche di debugging e stress-testing per garantire un'esperienza utente fluida ed esente da criticità strutturali.</p>
+                <p>All'interno del gameplay ho strutturato due dinamiche di parkour nettamente distinte e ingegnerizzate for differenti target di utenza:</p>
+                <p>• <b>Old School Parkour:</b> Una modalità che evoca l'estetica classica e retrò delle origini di Roblox. È caratterizzata da geometrie nette e blocchi dai colori primari estremamente accesi. Sotto il profilo delle meccaniche, questa zona integra una componente competitiva PvP (Player vs Player) unica: presso ciascun checkpoint viene fornita automaticamente una spada a ogni utente, consentendo dinamiche di combattimento tactical volte a ostacolare e destabilizzare avversari durante la scalata.</p>
+                <p>• <b>Themed Parkour:</b> Un'esperienza interamente costruita su ambientazioni a tema estremamente diversificate che modificano radicalmente l'aspetto degli ostacoli. Gli utenti si troveranno ad affrontare un percorso immersivo in cui i checkpoint cambiano scenario: dal tema bar, dove è necessario saltare in equilibrio su bottiglie in vetro, al tema scolastico con passaggi calibrati su cattedre e banchi di scuola. Le zone includono anche dinamiche ambientate nel cinema, costringendo i giocatori a schivare poltrone, percorsi a ostacoli intrecciati e scatole di popcorn giganti, per poi sfociare in ambientazioni a tema spiaggia e sabbia dal sapore estivo ma dotate di insidie tecniche uniche.</p>
+                <p>A completamento dell'infrastruttura ludica, ho implementato una specifica <b>Zona Mini PvP</b>, un'arena dedicata dove gli utenti possono confrontarsi direttamente in sessioni di combattimento ravvicinato, valorizzando il bilanciamento delle hitbox e la gestione dei feedback di rete in tempo reale.</p>
+                
+                <div class="project-gallery">
+                    <img src="copertina.png" class="project-img" alt="Copertina Ufficiale Up & Beyond">
+                    <img src="oldschool.png" class="project-img" alt="Dettaglio Modalità Old School Parkour" onerror="this.style.display='none'">
+                </div>
+                <p><a href="https://www.roblox.com/it/games/112569198565568/Up-Beyond" target="_blank" class="project-link">Analizza il progetto Up & Beyond su Roblox</a></p>
+            </div>
+        </div>
+
+        <!-- PAGINA 2: CERTIFICAZIONI -->
+        <div class="page-wrapper" id="page2">
+            <h2 class="section-title">Accreditamenti e Certificazioni Internazionali</h2>
+            
+            <div class="tech-box">
+                <p>Quadro dettagliato dei titoli di studio e professionali conseguiti a seguito di esami di profitto e percorsi formativi specialistici validati.</p>
+            </div>
+
+            <div class="tech-box">
+                <h3><img src="cisco-logo-0-2048x2048-1-1536x1536.png" class="logo-inline" alt="Cisco Logo"> Cisco Networking Academy</h3>
+                <p><span class="highlight">Exploring Networking with Cisco Packet Tracer</span><br>Sviluppo di competenze nell'ideazione di topologie di rete complesse, cablaggio logico e configurazione iniziale di apparati di commutazione e instradamento tramite simulatore enterprise.</p>
+                <p><i>Instructor: Irene Cassano (IISS Volta-De Gemmis) | Data di Rilascio: 18 Maggio 2026 | Cert ID: 23dc26dc-4e04-4034-8b4e-4cd64d2e1910</i></p>
+                <hr style="border: 0; border-bottom: 2px dashed #ddd; margin: 20px 0;">
+                <p><span class="highlight">Introduction to Cybersecurity</span><br>Studio sistemico dei vettori d'attacco moderni, protezione degli endpoint, metodologie di cifratura dati e framework di sicurezza aziendali per mitigare i rischi infrastrutturali.</p>
+                <p><i>Instructor: Irene Cassano (IISS Volta-De Gemmis) | Data di Rilascio: 20 Aprile 2026 | Cert ID: 313c6605-88ee-4cf0-af09-fac811893686</i></p>
+            </div>
+
+            <div class="tech-box">
+                <h3>Fondo Sociale Europeo (FSE)</h3>
+                <p><span class="highlight">Modulo 7 – Etica e sicurezza digitale nel mondo del lavoro</span><br>Programma Operativo Nazionale focalizzato sulle normative di conformità dei dati, principi etici nell'utilizzo di sistemi di automazione e protocolli di sicurezza operativi aziendali.</p>
+                <p><i>Struttura: I.I.S.S. Volta - De Gemmis (Bitonto) | Codice Progetto: 10.1.6A-FDRPOC-PU-2024-155 (30 Ore) | Rilascio: 20/03/2026 | Dirigente: Grazia Ruggiero</i></p>
+            </div>
+
+            <div class="tech-box">
+                <h3><img src="ef-logo-removebg-preview.png" class="logo-inline" alt="EF Logo"> Competenze Linguistiche EF</h3>
+                <p><span class="highlight">EFSET Certificate of Achievement (Livello B2)</span><br>Attestazione ufficiale del livello di competenza linguistica conseguita a seguito di un percorso di immersion totale a Malta. Il programma di studi ha compreso sessioni di perfezionamento accademico e interazione quotidiana con studenti e docenti provenienti da contesti internazionali. L'experience ha consolidato un'elevata flessibilità comunicativa, la capacità di adattamento a dinamiche multiculturali e un'ottima fluidità nell'esposizione tecnica orale e scritta.</p>
+                <p><i>Ente Certificatore: Academic Director EF - Malta | Data di Rilascio: 13/03/2026</i><br><a href="https://www.ef-italia.it/" target="_blank" class="project-link">Portale Istituzionale EF</a></p>
+            </div>
+
+            <div class="tech-box">
+                <h3><img src="anfos-300x245.png" class="logo-inline" alt="ANFOS" onerror="this.style.display='none'"> Sicurezza e Prevenzione</h3>
+                <p><span class="highlight">Formazione Generale in materia di Salute e Sicurezza sul Lavoro</span><br>Certificazione abilitante permanente ai sensi dell'Art. 37 D.Lgs. 81/08 e successivi Accordi Stato-Regioni. Analisi dei fattori di rischio, diritti e doveri dei lavoratori e procedure di evacuazione ed emergenza aziendali.</p>
+                <p><i>Ente Formatore: A.N.FO.S. (Validazione O.P.Na.Fo.S.) | Contesto: Percorsi per le Competenze Trasversali (PCTO) | Data Conclusione: 24-10-2024 | Prot: SC26248-24</i></p>
+            </div>
+        </div>
+
+        <!-- PAGINA 3: ESPERIENZE -->
+        <div class="page-wrapper" id="page3">
+            <h2 class="section-title">Esperienze Professionali ed Internazionali</h2>
+
+            <div class="tech-box">
+                <h3><img src="Erasmus+_logo_0-removebg-preview.png" class="logo-inline" alt="Erasmus+"> Mobilità Erasmus+ | Creta, Grecia 🇬🇷</h3>
+                <img src="magicnet-logo-1622567021.png" alt="Magic Net" style="height: 50px; margin-bottom: 15px;">
+                <p>Tirocinio tecnico formativo svolto presso la sede operativa di <b>Magic Net</b>, azienda focalizzata sulla fornitura hardware ed infrastrutture IT.</p>
+                <p><b>Competenze Acquisite ed Operatività:</b> Ho gestito l'ottimizzazione sistematica e la manutenzione di apparati hardware fissi e portatili. Nello specifico, ho eseguito diagnosi software di basso livello e operato aggiornamenti infrastrutturali critici sui dispositivi, come la sostituzione di vecchi dischi magnetici (HDD) con moderne unità a stato solido (SSD), configurando i relativi file system per ripristinare i massimi standard prestazionali delle macchine.</p>
+                <p><a href="https://www.magicnet.gr/" target="_blank" class="project-link">Sito Aziendale Magic Net</a></p>
+            </div>
+
+            <div class="tech-box">
+                <h3><img src="Erasmus+_logo_0-removebg-preview.png" class="logo-inline" alt="Erasmus+"> Mobilità Erasmus+ | Zagabria, Croazia 🇭🇷</h3>
+                <img src="LOGO-GLOBUS-PNG-manji.png" alt="Gastro Globus" style="height: 45px; margin-bottom: 15px;">
+                <p>Esperienza formativa e operativa di un mese a Zagabria all'interno del polo congressuale e di banqueting internazionale <b>Gastro Globus</b>.</p>
+                <p><b>Operatività in Team:</b> Inserito nel team di cucina sotto la supervisione dell'executive chef, ho collaborato attivamente alla pianificazione della catena logistica delle materie prime, curando con rigorosa attenzione il taglio tecnico delle carni, le procedure di lavorazione e impanatura e la preparazione avanzata dei vegetali, rispondendo a ritmi di produzione intensivi ed elevati standard igienico-sanitari.</p>
+                <blockquote>
+                    ⭐ <b>Certificato di Eccellenza Internazionale:</b> Rilasciato dalla direzione aziendale per premiare l'assoluto rispetto degli orari lavorativi, la serietà deontologica dimostrata e la spiccata attitudine collaborativa nel team multilingua.
+                </blockquote>
+                <div class="map-mock">
+                    <iframe src="https://maps.google.com/maps?q=Avenija%20Dubrovnik%2015,%2010000,%20Zagreb,%20Croazia&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+
+            <div class="tech-box">
+                <h3><img src="logo-ola.png" class="logo-inline" alt="Ola Logo"> Ola Intrattenimenti - Animatore Professionale</h3>
+                <p>Attività lavorativa trimestrale sul campo nel ruolo di Animatore Turistico e Coordinatore Sportivo, preceduta da tre giornate di Academy intensiva focalizzata sulla psicologia relazionale e la gestione dei flussi organizzativi.</p>
+                <p><b>Mansioni e Soft Skills:</b> Ho strutturato, pianificato e condotto tornei sportivi ufficiali, grandi giochi a tema e attività ludico-ricreative dedicate a target giovanili. Ho inoltre preso parte attiva alla programmazione artistica serale della struttura esibendomi in spettacoli di cabaret e coreografie di balli di gruppo con alti standard di precisione e coordinazione.</p>
+                <p>Questa esperienza sul campo ha segnato un momento chiave nel consolidamento della mia maturità personale e flessibilità logistica: ho vissuto in totale autonomia e lontano da casa per l'intera durata del contratto (3 mesi), gestendo in prima persona tempi di recupero, pianificazione economica, alimentazione e dinamiche di convivenza professionale.</p>
+                <img src="OLA-06.jpeg" class="project-img" alt="Attività di animazione sul campo Ola Intrattenimenti" onerror="this.style.display='none'" style="width: 100%; margin-top: 15px;">
+            </div>
+
+            <div class="tech-box">
+                <h3><img src="gotha.jpg" class="logo-inline" alt="Gotha Logo"> Servizio Clienti | Bar Gotha - Bitonto</h3>
+                <p>Esperienza lavorativa trimestrale nel settore del front-facing e della logistica di sala svolta durante la stagione estiva 2025.</p>
+                <p><b>Attività Svolte:</b> Gestione flessibile dei flussi di cassa, accoglienza clienti e coordinamento delle comande organizzato su turni fluttuanti diurni, pomeridiani e notturni. L'attività ha notevolmente affinato la mia tolleranza allo stress, le doti di problem-solving immediato in presenza di pubblico esigente e l'ottimizzazione del tempo in scenari lavorativi ad alta densità dinamica.</p>
+                <div class="map-mock">
+                    <iframe src="https://maps.google.com/maps?q=Via%20Domenico%20Ricapito%2056,%2070032,%20Bitonto%20Italy&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+    <script>
+    /* Script per la gestione del cursore personalizzato */
+    const cursor = document.getElementById("cursor"); 
+    let hasMouse = false; 
+
+    window.addEventListener("mousemove", () => { 
+        if (!hasMouse) { 
+            hasMouse = true; 
+            cursor.classList.add("visible"); 
+            document.body.style.cursor = "none"; 
+        } 
+    }, { once: false }); 
+
+    document.addEventListener("mousemove", (e) => { 
+        cursor.style.left = e.clientX + "px"; 
+        cursor.style.top = e.clientY + "px"; 
+    }); 
+
+    document.querySelectorAll("a, label").forEach((el) => { 
+        el.addEventListener("mouseenter", () => cursor.classList.add("big")); 
+        el.addEventListener("mouseleave", () => cursor.classList.remove("big")); 
+    }); 
+    </script>
+</body>
+</html>
