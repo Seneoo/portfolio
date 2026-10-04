@@ -33,7 +33,7 @@
     <li><b>Cybersecurity:</b> Competitor in OliCyber (Italian Cybersecurity Olympics) - Territorial Phase.</li>
     <li><b>Development / Sviluppo:</b> Co-creator of <i>Up & Beyond</i> on Roblox Studio using Luau programming and advanced object-oriented logic.</li>
     <li><b>International Experience / Esperienze Estere:</b> Erasmus+ technical internships in Greece (Magic Net) and Croatia (Gastro Globus with Certificate of Excellence), alongside professional animation work in tourism and customer relations.</li>
-    <li><b>Certifications / Certificazioni:</b> Cisco Networking Academy (Packet Tracer & Cybersecurity), European Social Fund (FSE) Digital Ethics, and EFSET B2 English Certification[cite: 7].</li>
+    <li><b>Certifications / Certificazioni:</b> Cisco Networking Academy (Packet Tracer & Cybersecurity), European Social Fund (FSE) Digital Ethics, and EFSET B2 English Certification.</li>
   </ul>
 </div>
 
