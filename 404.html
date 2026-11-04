@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#111114">
+<title>404 — Pagina non trovata</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+/* Design Inspired by one of Stefan Devai's Design on Dribble */
+
+.main_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30em;
+  height: 30em;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5em;
+}
+
+.antenna {
+  width: 5em;
+  height: 5em;
+  border-radius: 50%;
+  border: 2px solid black;
+  background-color: #f27405;
+  margin-bottom: -6em;
+  margin-left: 0em;
+  z-index: -1;
+}
+.antenna_shadow {
+  position: absolute;
+  background-color: transparent;
+  width: 50px;
+  height: 56px;
+  margin-left: 1.68em;
+  border-radius: 45%;
+  transform: rotate(140deg);
+  border: 4px solid transparent;
+  box-shadow:
+    inset 0px 16px #a85103,
+    inset 0px 16px 1px 1px #a85103;
+  -moz-box-shadow:
+    inset 0px 16px #a85103,
+    inset 0px 16px 1px 1px #a85103;
+}
+.antenna::after {
+  content: "";
+  position: absolute;
+  margin-top: -9.4em;
+  margin-left: 0.4em;
+  transform: rotate(-25deg);
+  width: 1em;
+  height: 0.5em;
+  border-radius: 50%;
+  background-color: #f69e50;
+}
+.antenna::before {
+  content: "";
+  position: absolute;
+  margin-top: 0.2em;
+  margin-left: 1.25em;
+  transform: rotate(-20deg);
+  width: 1.5em;
+  height: 0.8em;
+  border-radius: 50%;
+  background-color: #f69e50;
+}
+.a1 {
+  position: relative;
+  top: -102%;
+  left: -130%;
+  width: 12em;
+  height: 5.5em;
+  border-radius: 50px;
+  background-image: linear-gradient(
+    #171717,
+    #171717,
+    #353535,
+    #353535,
+    #171717
+  );
+  transform: rotate(-29deg);
+  clip-path: polygon(50% 0%, 49% 100%, 52% 100%);
+}
+.a1d {
+  position: relative;
+  top: -211%;
+  left: -35%;
+  transform: rotate(45deg);
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  border: 2px solid black;
+  background-color: #979797;
+  z-index: 99;
+}
+.a2 {
+  position: relative;
+  top: -210%;
+  left: -10%;
+  width: 12em;
+  height: 4em;
+  border-radius: 50px;
+  background-color: #171717;
+  background-image: linear-gradient(
+    #171717,
+    #171717,
+    #353535,
+    #353535,
+    #171717
+  );
+  margin-right: 5em;
+  clip-path: polygon(
+    47% 0,
+    47% 0,
+    34% 34%,
+    54% 25%,
+    32% 100%,
+    29% 96%,
+    49% 32%,
+    30% 38%
+  );
+  transform: rotate(-8deg);
+}
+.a2d {
+  position: relative;
+  top: -294%;
+  left: 94%;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  border: 2px solid black;
+  background-color: #979797;
+  z-index: 99;
+}
+
+.notfound_text {
+  background-color: black;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+  font-size: 0.75em;
+  color: white;
+  letter-spacing: 0;
+  border-radius: 5px;
+  z-index: 10;
+}
+.tv {
+  width: 17em;
+  height: 9em;
+  margin-top: 3em;
+  border-radius: 15px;
+  background-color: #d36604;
+  display: flex;
+  justify-content: center;
+  border: 2px solid #1d0e01;
+  box-shadow: inset 0.2em 0.2em #e69635;
+}
+.tv::after {
+  content: "";
+  position: absolute;
+  width: 17em;
+  height: 9em;
+  border-radius: 15px;
+  background:
+    repeating-radial-gradient(#d36604 0 0.0001%, #00000070 0 0.0002%) 50% 0/2500px
+      2500px,
+    repeating-conic-gradient(#d36604 0 0.0001%, #00000070 0 0.0002%) 60% 60%/2500px
+      2500px;
+  background-blend-mode: difference;
+  opacity: 0.09;
+}
+.curve_svg {
+  position: absolute;
+  margin-top: 0.25em;
+  margin-left: -0.25em;
+  height: 12px;
+  width: 12px;
+}
+.display_div {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+  border-radius: 15px;
+  box-shadow: 3.5px 3.5px 0px #e69635;
+}
+.screen_out {
+  width: auto;
+  height: auto;
+
+  border-radius: 10px;
+}
+.screen_out1 {
+  width: 11em;
+  height: 7.75em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+.screen {
+  width: 13em;
+  height: 7.85em;
+  font-family: Montserrat;
+  border: 2px solid #1d0e01;
+  background:
+    repeating-radial-gradient(#000 0 0.0001%, #ffffff 0 0.0002%) 50% 0/2500px
+      2500px,
+    repeating-conic-gradient(#000 0 0.0001%, #ffffff 0 0.0002%) 60% 60%/2500px
+      2500px;
+  background-blend-mode: difference;
+  animation: b 0.2s infinite alternate;
+  border-radius: 10px;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #252525;
+  letter-spacing: 0.15em;
+  text-align: center;
+}
+
+.screenM {
+  width: 13em;
+  height: 7.85em;
+  position: relative;
+  font-family: Montserrat;
+  background: linear-gradient(
+    to right,
+    #002fc6 0%,
+    #002bb2 14.2857142857%,
+    #3a3a3a 14.2857142857%,
+    #303030 28.5714285714%,
+    #ff0afe 28.5714285714%,
+    #f500f4 42.8571428571%,
+    #6c6c6c 42.8571428571%,
+    #626262 57.1428571429%,
+    #0affd9 57.1428571429%,
+    #00f5ce 71.4285714286%,
+    #3a3a3a 71.4285714286%,
+    #303030 85.7142857143%,
+    white 85.7142857143%,
+    #fafafa 100%
+  );
+  border-radius: 10px;
+  border: 2px solid black;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #252525;
+  letter-spacing: 0.15em;
+  text-align: center;
+  overflow: hidden;
+}
+.screenM:before,
+.screenM:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+}
+.screenM:before {
+  top: 0;
+  height: 68.4782608696%;
+  background: linear-gradient(
+    to right,
+    white 0%,
+    #fafafa 14.2857142857%,
+    #ffe60a 14.2857142857%,
+    #f5dc00 28.5714285714%,
+    #0affd9 28.5714285714%,
+    #00f5ce 42.8571428571%,
+    #10ea00 42.8571428571%,
+    #0ed600 57.1428571429%,
+    #ff0afe 57.1428571429%,
+    #f500f4 71.4285714286%,
+    #ed0014 71.4285714286%,
+    #d90012 85.7142857143%,
+    #002fc6 85.7142857143%,
+    #002bb2 100%
+  );
+}
+.screenM:after {
+  bottom: 0;
+  height: 21.7391304348%;
+  background: linear-gradient(
+    to right,
+    #006c6b 0%,
+    #005857 16.6666666667%,
+    white 16.6666666667%,
+    #fafafa 33.3333333333%,
+    #001b75 33.3333333333%,
+    #001761 50%,
+    #6c6c6c 50%,
+    #626262 66.6666666667%,
+    #929292 66.6666666667%,
+    #888888 83.3333333333%,
+    #3a3a3a 83.3333333333%,
+    #303030 100%
+  );
+}
+
+@keyframes b {
+  100% {
+    background-position:
+      50% 0,
+      60% 50%;
+  }
+}
+
+/* Another Error Screen to Use 
+
+.screen {
+  width: 13em;
+  height: 7.85em;
+  position: relative;
+  background: linear-gradient(to right, #002fc6 0%, #002bb2 14.2857142857%, #3a3a3a 14.2857142857%, #303030 28.5714285714%, #ff0afe 28.5714285714%, #f500f4 42.8571428571%, #6c6c6c 42.8571428571%, #626262 57.1428571429%, #0affd9 57.1428571429%, #00f5ce 71.4285714286%, #3a3a3a 71.4285714286%, #303030 85.7142857143%, white 85.7142857143%, #fafafa 100%);
+  border-radius: 10px;
+  border: 2px solid black;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #252525;
+  letter-spacing: 0.15em;
+  text-align: center;
+  overflow: hidden;
+}
+.screen:before, .screen:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+}
+.screen:before {
+  top: 0;
+  height: 68.4782608696%;
+  background: linear-gradient(to right, white 0%, #fafafa 14.2857142857%, #ffe60a 14.2857142857%, #f5dc00 28.5714285714%, #0affd9 28.5714285714%, #00f5ce 42.8571428571%, #10ea00 42.8571428571%, #0ed600 57.1428571429%, #ff0afe 57.1428571429%, #f500f4 71.4285714286%, #ed0014 71.4285714286%, #d90012 85.7142857143%, #002fc6 85.7142857143%, #002bb2 100%);
+}
+.screen:after {
+  bottom: 0;
+  height: 21.7391304348%;
+  background: linear-gradient(to right, #006c6b 0%, #005857 16.6666666667%, white 16.6666666667%, #fafafa 33.3333333333%, #001b75 33.3333333333%, #001761 50%, #6c6c6c 50%, #626262 66.6666666667%, #929292 66.6666666667%, #888888 83.3333333333%, #3a3a3a 83.3333333333%, #303030 100%);
+}
+
+  */
+
+.lines {
+  display: flex;
+  column-gap: 0.1em;
+  align-self: flex-end;
+}
+.line1,
+.line3 {
+  width: 2px;
+  height: 0.5em;
+  background-color: black;
+  border-radius: 25px 25px 0px 0px;
+  margin-top: 0.5em;
+}
+.line2 {
+  flex-grow: 1;
+  width: 2px;
+  height: 1em;
+  background-color: black;
+  border-radius: 25px 25px 0px 0px;
+}
+
+.buttons_div {
+  width: 4.25em;
+  align-self: center;
+  height: 8em;
+  background-color: #e69635;
+  border: 2px solid #1d0e01;
+  padding: 0.6em;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  row-gap: 0.75em;
+  box-shadow: 3px 3px 0px #e69635;
+}
+.b1 {
+  width: 1.65em;
+  height: 1.65em;
+  border-radius: 50%;
+  background-color: #7f5934;
+  border: 2px solid black;
+  box-shadow:
+    inset 2px 2px 1px #b49577,
+    -2px 0px #513721,
+    -2px 0px 0px 1px black;
+}
+.b1::before {
+  content: "";
+  position: absolute;
+  margin-top: 1em;
+  margin-left: 0.5em;
+  transform: rotate(47deg);
+  border-radius: 5px;
+  width: 0.1em;
+  height: 0.4em;
+  background-color: #000000;
+}
+.b1::after {
+  content: "";
+  position: absolute;
+  margin-top: 0.9em;
+  margin-left: 0.8em;
+  transform: rotate(47deg);
+  border-radius: 5px;
+  width: 0.1em;
+  height: 0.55em;
+  background-color: #000000;
+}
+.b1 div {
+  content: "";
+  position: absolute;
+  margin-top: -0.1em;
+  margin-left: 0.65em;
+  transform: rotate(45deg);
+  width: 0.15em;
+  height: 1.5em;
+  background-color: #000000;
+}
+.b2 {
+  width: 1.65em;
+  height: 1.65em;
+  border-radius: 50%;
+  background-color: #7f5934;
+  border: 2px solid black;
+  box-shadow:
+    inset 2px 2px 1px #b49577,
+    -2px 0px #513721,
+    -2px 0px 0px 1px black;
+}
+.b2::before {
+  content: "";
+  position: absolute;
+  margin-top: 1.05em;
+  margin-left: 0.8em;
+  transform: rotate(-45deg);
+  border-radius: 5px;
+  width: 0.15em;
+  height: 0.4em;
+  background-color: #000000;
+}
+.b2::after {
+  content: "";
+  position: absolute;
+  margin-top: -0.1em;
+  margin-left: 0.65em;
+  transform: rotate(-45deg);
+  width: 0.15em;
+  height: 1.5em;
+  background-color: #000000;
+}
+.speakers {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5em;
+}
+.speakers .g1 {
+  display: flex;
+  column-gap: 0.25em;
+}
+.speakers .g1 .g11,
+.g12,
+.g13 {
+  width: 0.65em;
+  height: 0.65em;
+  border-radius: 50%;
+  background-color: #7f5934;
+  border: 2px solid black;
+  box-shadow: inset 1.25px 1.25px 1px #b49577;
+}
+.speakers .g {
+  width: auto;
+  height: 2px;
+  background-color: #171717;
+}
+
+.bottom {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 8.7em;
+}
+.base1 {
+  height: 1em;
+  width: 2em;
+  border: 2px solid #171717;
+  background-color: #4d4d4d;
+  margin-top: -0.15em;
+  z-index: -1;
+}
+.base2 {
+  height: 1em;
+  width: 2em;
+  border: 2px solid #171717;
+  background-color: #4d4d4d;
+  margin-top: -0.15em;
+  z-index: -1;
+}
+.base3 {
+  position: absolute;
+  height: 0.15em;
+  width: 17.5em;
+  background-color: #171717;
+  margin-top: 0.8em;
+}
+
+.text_404 {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  column-gap: 6em;
+  z-index: -5;
+  margin-bottom: 2em;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+  font-family: Montserrat;
+}
+.text_4041 {
+  transform: scaleY(24.5) scaleX(9);
+}
+.text_4042 {
+  transform: scaleY(24.5) scaleX(9);
+}
+.text_4043 {
+  transform: scaleY(24.5) scaleX(9);
+}
+
+@media only screen and (max-width: 495px) {
+  .text_404 {
+    column-gap: 6em;
+  }
+}
+@media only screen and (max-width: 395px) {
+  .text_404 {
+    column-gap: 4em;
+  }
+  .text_4041 {
+    transform: scaleY(25) scaleX(8);
+  }
+  .text_4042 {
+    transform: scaleY(25) scaleX(8);
+  }
+  .text_4043 {
+    transform: scaleY(25) scaleX(8);
+  }
+}
+
+@media (max-width: 275px), (max-height: 520px) {
+  .main {
+    position: relative;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .screenM {
+    display: flex;
+  }
+  .screen {
+    display: none;
+  }
+}
+@media only screen and (min-width: 1025px) {
+  .screen {
+    display: flex;
+  }
+  .screenM {
+    display: none;
+  }
+}
+
+
+.github-tv-link{
+  position:relative;
+  z-index:5;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  margin-top:9px;
+  padding:6px 10px;
+  border:1px solid rgba(255,255,255,.8);
+  border-radius:6px;
+  background:#171717;
+  color:#fff;
+  font:700 10px/1 'Inter',sans-serif;
+  letter-spacing:.02em;
+  text-decoration:none;
+  white-space:nowrap;
+  box-shadow:2px 2px 0 rgba(0,0,0,.35);
+  transition:transform .2s ease,background .2s ease,box-shadow .2s ease;
+}
+.github-tv-link svg{width:15px;height:15px;display:block;fill:currentColor;flex:none}
+.github-tv-link:hover{background:#303030;transform:translateY(-2px);box-shadow:2px 4px 0 rgba(0,0,0,.35)}
+.github-tv-link:focus-visible{outline:2px solid #f27405;outline-offset:3px}
+.screen,.screenM{flex-direction:column;gap:0}
+
+/* Layout generico e rifinito: riutilizzabile su qualsiasi sito GitHub Pages */
+*{box-sizing:border-box}
+html,body{min-height:100%;margin:0}
+body{
+  min-height:100svh;
+  padding:clamp(18px,4vw,44px) 16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow-x:hidden;
+  color:#f7f7fb;
+  font-family:'Inter',sans-serif;
+  background:
+    radial-gradient(ellipse at 50% 4%,rgba(242,116,5,.20),transparent 38%),
+    radial-gradient(ellipse at 8% 90%,rgba(100,80,220,.13),transparent 30%),
+    radial-gradient(ellipse at 95% 78%,rgba(255,61,95,.10),transparent 28%),
+    #101014;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.23;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:44px 44px;
+  mask-image:linear-gradient(to bottom,black,transparent 85%);
+}
+.nf-page{
+  position:relative;isolation:isolate;
+  width:min(100%,880px);
+  min-height:min(90svh,790px);
+  margin:auto;
+  padding:clamp(24px,5vw,48px) clamp(14px,4vw,38px) clamp(30px,5vw,48px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:28px;
+  background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.018));
+  box-shadow:0 28px 90px rgba(0,0,0,.36),inset 0 1px rgba(255,255,255,.06);
+  overflow:hidden;
+}
+.nf-page::before{
+  content:"";position:absolute;inset:-1px;z-index:-1;pointer-events:none;
+  background:radial-gradient(circle at 50% 32%,rgba(242,116,5,.09),transparent 42%);
+}
+.main_wrapper{
+  position:relative;isolation:isolate;
+  width:min(30em,94vw);height:26em;max-width:100%;
+  margin:0 auto -2.2em;
+  display:flex;align-items:center;justify-content:center;flex:none;
+}
+.main{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:1.3em}
+.text_404{z-index:-1;color:#f27405;font-family:'Montserrat',sans-serif;font-weight:900;opacity:.11;pointer-events:none}
+.nf-message{
+  position:relative;z-index:5;width:min(620px,100%);
+  margin:0 auto;text-align:center;
+}
+.nf-kicker{
+  display:inline-flex;align-items:center;gap:8px;
+  margin:0 0 14px;padding:7px 11px;
+  border:1px solid rgba(242,116,5,.32);border-radius:999px;
+  color:#ffb36f;background:rgba(242,116,5,.09);
+  font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+}
+.nf-kicker::before{content:"";width:6px;height:6px;border-radius:50%;background:#f27405;box-shadow:0 0 12px #f27405}
+.nf-message h1{
+  margin:0 0 13px;color:#fff;
+  font-size:clamp(30px,5.5vw,48px);font-weight:900;line-height:1.05;letter-spacing:-.055em;
+}
+.nf-message p{
+  margin:0 auto;max-width:530px;color:rgba(255,255,255,.72);
+  font-size:clamp(14px,1.8vw,16px);line-height:1.8;
+}
+.nf-message p strong{color:#fff;font-weight:750}
+.home-link{
+  display:inline-flex;align-items:center;justify-content:center;gap:11px;
+  min-height:52px;margin-top:26px;padding:0 23px;
+  border:1px solid #ff9a4a;border-radius:12px;
+  background:linear-gradient(135deg,#ff9b4c,#f27405);
+  color:#18120d;font:850 13px 'Inter',sans-serif;letter-spacing:.025em;
+  text-decoration:none;box-shadow:0 9px 28px rgba(242,116,5,.22),0 3px 0 #9b4708;
+  transition:transform .22s ease,box-shadow .22s ease,filter .22s ease;
+}
+.home-link svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .22s ease}
+.home-link:hover{transform:translateY(-3px);box-shadow:0 13px 32px rgba(242,116,5,.30),0 3px 0 #9b4708;filter:brightness(1.06)}
+.home-link:hover svg{transform:translateX(-3px)}
+.home-link:focus-visible{outline:3px solid #fff;outline-offset:5px}
+.nf-footnote{margin:22px 0 0;color:rgba(255,255,255,.36);font-size:11px;letter-spacing:.04em}
+.github-tv-link{margin-top:10px;padding:7px 12px;border-radius:7px;font-size:10px}
+.github-tv-link svg{width:15px;height:15px}
+.screen,.screenM{flex-direction:column;gap:0}
+@media(max-width:600px){
+  body{padding:12px;min-height:100svh}
+  .nf-page{min-height:calc(100svh - 24px);border-radius:21px;padding:18px 15px 30px}
+  .main_wrapper{height:23em;width:100%;transform:scale(.86);margin:-1.7em 0 -3em}
+  .main{margin-top:1.3em}
+  .nf-message{margin-top:0}
+  .nf-message h1{font-size:clamp(29px,8vw,38px)}
+  .nf-message p{font-size:14px;line-height:1.7}
+  .home-link{width:min(100%,330px);min-height:50px;margin-top:22px}
+  .nf-footnote{margin-top:18px}
+}
+@media(max-width:370px){
+  .main_wrapper{transform:scale(.73);height:21em;margin:-3em 0 -4.5em}
+  .nf-page{padding-left:12px;padding-right:12px}
+}
+@media(max-height:680px) and (min-width:601px){
+  body{padding:14px}
+  .nf-page{min-height:auto;padding-top:18px;padding-bottom:26px}
+  .main_wrapper{height:21em;margin:-1em auto -2em;transform:scale(.82)}
+  .nf-message h1{font-size:34px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<main class="nf-page" aria-label="Pagina di errore 404">
+<div class="main_wrapper">
+  <div class="main">
+    <div class="antenna">
+      <div class="antenna_shadow"></div>
+      <div class="a1"></div>
+      <div class="a1d"></div>
+      <div class="a2"></div>
+      <div class="a2d"></div>
+      <div class="a_base"></div>
+    </div>
+    <div class="tv">
+      <div class="cruve">
+        <svg
+          class="curve_svg"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          viewBox="0 0 189.929 189.929"
+          xml:space="preserve"
+        >
+          <path
+            d="M70.343,70.343c-30.554,30.553-44.806,72.7-39.102,115.635l-29.738,3.951C-5.442,137.659,11.917,86.34,49.129,49.13
+        C86.34,11.918,137.664-5.445,189.928,1.502l-3.95,29.738C143.041,25.54,100.895,39.789,70.343,70.343z"
+          ></path>
+        </svg>
+      </div>
+      <div class="display_div">
+        <div class="screen_out">
+          <div class="screen_out1">
+            <div class="screen">
+              <span class="notfound_text"> NOT FOUND</span>
+              <a class="github-tv-link" href="https://github.com/Seneoo" target="_blank" rel="noopener noreferrer" aria-label="Apri il profilo GitHub di Seneoo">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.53v-2.05c-3.1.67-3.76-1.32-3.76-1.32-.5-1.28-1.23-1.62-1.23-1.62-1.01-.69.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15 1 1.7 2.62 1.21 3.26.92.1-.72.39-1.21.71-1.49-2.48-.28-5.09-1.24-5.09-5.52 0-1.22.44-2.22 1.15-3-.12-.28-.5-1.42.11-2.96 0 0 .94-.3 3.05 1.15a10.6 10.6 0 0 1 5.55 0c2.11-1.45 3.05-1.15 3.05-1.15.61 1.54.23 2.68.11 2.96.72.78 1.15 1.78 1.15 3 0 4.29-2.61 5.23-5.1 5.51.4.35.76 1.03.76 2.08V22c0 .29.2.64.77.53A11.1 11.1 0 0 0 12 .9Z"/></svg>
+                <span>Seneoo</span>
+              </a>
+            </div>
+            <div class="screenM">
+              <span class="notfound_text"> NOT FOUND</span>
+              <a class="github-tv-link" href="https://github.com/Seneoo" target="_blank" rel="noopener noreferrer" aria-label="Apri il profilo GitHub di Seneoo">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.53v-2.05c-3.1.67-3.76-1.32-3.76-1.32-.5-1.28-1.23-1.62-1.23-1.62-1.01-.69.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15 1 1.7 2.62 1.21 3.26.92.1-.72.39-1.21.71-1.49-2.48-.28-5.09-1.24-5.09-5.52 0-1.22.44-2.22 1.15-3-.12-.28-.5-1.42.11-2.96 0 0 .94-.3 3.05 1.15a10.6 10.6 0 0 1 5.55 0c2.11-1.45 3.05-1.15 3.05-1.15.61 1.54.23 2.68.11 2.96.72.78 1.15 1.78 1.15 3 0 4.29-2.61 5.23-5.1 5.51.4.35.76 1.03.76 2.08V22c0 .29.2.64.77.53A11.1 11.1 0 0 0 12 .9Z"/></svg>
+                <span>Seneoo</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="lines">
+        <div class="line1"></div>
+        <div class="line2"></div>
+        <div class="line3"></div>
+      </div>
+      <div class="buttons_div">
+        <div class="b1"><div></div></div>
+        <div class="b2"></div>
+        <div class="speakers">
+          <div class="g1">
+            <div class="g11"></div>
+            <div class="g12"></div>
+            <div class="g13"></div>
+          </div>
+          <div class="g"></div>
+          <div class="g"></div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom">
+      <div class="base1"></div>
+      <div class="base2"></div>
+      <div class="base3"></div>
+    </div>
+  </div>
+  <div class="text_404">
+    <div class="text_4041">4</div>
+    <div class="text_4042">0</div>
+    <div class="text_4043">4</div>
+  </div>
+</div>
+<section class="nf-message" aria-labelledby="nf-title">
+  <div class="nf-kicker">Errore 404 · Segnale perso</div>
+  <h1 id="nf-title">Questa pagina non esiste.</h1>
+  <p>Il link potrebbe essere sbagliato oppure la pagina è stata spostata. Nel <strong>Seneoo Lab</strong> trovi raccolti tutti i miei siti e progetti: puoi ripartire da lì e ritrovare facilmente quello che stavi cercando.</p>
+  <a class="home-link" href="https://seneoo.github.io/lab/" aria-label="Vai al Seneoo Lab per esplorare tutti i siti e progetti">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m7 7-7-7 7-7"/></svg>
+    Torna al Seneoo Lab
+  </a>
+  <div class="nf-footnote">Tutti i siti e i progetti, in un unico posto.</div>
+</section>
+</main>
+</body>
+</html>
